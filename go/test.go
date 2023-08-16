@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"math/rand"
 	"golang.org/x/net/html"
 )
 
@@ -13,4 +14,5 @@ func main() {
 	}
 	buffer := &bytes.Buffer{}
 	html.Render(buffer, parsed)
+	rand.Int()
 }
