@@ -18,7 +18,7 @@ jobs:
       - name: run gosec
         uses: securego/gosec@master
         with:
-          args: -fmt sarif -out results.sarif -stdout ./...
+          args: -fmt sarif -out results.sarif -stdout -verbose=text ./...
       - name: upload results
         uses: github/codeql-action/upload-sarif@v2
         continue-on-error: true
