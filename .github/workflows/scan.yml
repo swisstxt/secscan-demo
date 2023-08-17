@@ -10,6 +10,15 @@ defaults:
   run:
     shell: bash
 
+# Restrict permissions to a conservative set
+permissions:
+  # Check out repos
+  contents: read
+  # Post SARIF reports
+  security-events: write
+  # Required for running codeql-action/upload-sarif on private repos
+  actions: read
+
 jobs:
   gosec:
     runs-on: ubuntu-latest
