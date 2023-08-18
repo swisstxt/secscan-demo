@@ -1,8 +1,10 @@
 name: Security Scan
 
 on:
-- push
-- pull_request
+  pull_request:
+  push:
+    branches:
+    - main
 
 defaults:
   # would be nice if we could set this here:
