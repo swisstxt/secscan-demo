@@ -163,6 +163,9 @@ jobs:
         uses: github/codeql-action/analyze@v2
         with:
           category: "/language:go"
+      - name: print results
+        run: |
+          cat "${{ steps.analysis.outputs.sarif-output }}"
   codeql-python:
     runs-on: ubuntu-latest
     steps:
@@ -181,3 +184,6 @@ jobs:
         uses: github/codeql-action/analyze@v2
         with:
           category: "/language:python"
+      - name: print results
+        run: |
+          cat "${{ steps.analysis.outputs.sarif-output }}"
