@@ -163,15 +163,10 @@ jobs:
         uses: github/codeql-action/analyze@v2
         with:
           category: "/language:go"
-          # We'll do the upload ourselves. This lets us report task failure without requiring the upload to succeed.
-          # Useful when GH Advanced Security isn't available.
-          upload: never
-      - name: upload results
-        uses: github/codeql-action/upload-sarif@v2
-        if: success() || failure()
-        continue-on-error: true
-        with:
-          sarif_file: "${{ steps.analysis.outputs.sarif-output }}"
+      - name: print results
+        run: |
+          cat "${{ steps.analysis.outputs.sarif-output }}/go.sarif"
+          echo "${{ steps.analysis.outputs.sarif-id }}"
   codeql-python:
     runs-on: ubuntu-latest
     steps:
@@ -190,10 +185,7 @@ jobs:
         uses: github/codeql-action/analyze@v2
         with:
           category: "/language:python"
-          upload: never
-      - name: upload results
-        uses: github/codeql-action/upload-sarif@v2
-        if: success() || failure()
-        continue-on-error: true
-        with:
-          sarif_file: "${{ steps.analysis.outputs.sarif-output }}"
+      - name: print results
+        run: |
+          cat "${{ steps.analysis.outputs.sarif-output }}/python.sarif"
+          echo "${{ steps.analysis.outputs.sarif-id }}"
