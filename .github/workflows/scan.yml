@@ -159,6 +159,7 @@ jobs:
       - name: codeql autobuild
         uses: github/codeql-action/autobuild@v2
       - name: codeql analysis
+        id: analysis
         uses: github/codeql-action/analyze@v2
         with:
           category: "/language:go"
@@ -170,7 +171,7 @@ jobs:
         if: success() || failure()
         continue-on-error: true
         with:
-          sarif_file: ${{ jobs.codeql-go.outputs.sarif-output }}
+          sarif_file: "${{ steps.analysis.outputs.sarif-output }}"
   codeql-python:
     runs-on: ubuntu-latest
     steps:
@@ -185,6 +186,7 @@ jobs:
       - name: codeql autobuild
         uses: github/codeql-action/autobuild@v2
       - name: codeql analysis
+        id: analysis
         uses: github/codeql-action/analyze@v2
         with:
           category: "/language:python"
@@ -194,4 +196,4 @@ jobs:
         if: success() || failure()
         continue-on-error: true
         with:
-          sarif_file: ${{ jobs.codeql-python.outputs.sarif-output }}
+          sarif_file: "${{ steps.analysis.outputs.sarif-output }}"
