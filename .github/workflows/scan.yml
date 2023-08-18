@@ -165,7 +165,7 @@ jobs:
           category: "/language:go"
       - name: print results
         run: |
-          ls "${{ steps.analysis.outputs.sarif-output }}"
+          cat "${{ steps.analysis.outputs.sarif-output }}/go.sarif"
           echo "${{ steps.analysis.outputs.sarif-id }}"
   codeql-python:
     runs-on: ubuntu-latest
@@ -187,5 +187,5 @@ jobs:
           category: "/language:python"
       - name: print results
         run: |
-          ls "${{ steps.analysis.outputs.sarif-output }}"
+          cat "${{ steps.analysis.outputs.sarif-output }}/python.sarif"
           echo "${{ steps.analysis.outputs.sarif-id }}"
