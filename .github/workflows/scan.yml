@@ -1,8 +1,12 @@
 name: Security Scan
 
 on:
-- push
-- pull_request
+  pull_request:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '11 11 * * 1'
 
 defaults:
   # would be nice if we could set this here:
@@ -139,3 +143,49 @@ jobs:
         continue-on-error: true
         with:
           sarif_file: results.sarif
+  # We could also use a matrix action to run the same job multiple times for different languages
+  # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategy
+  codeql-go:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: go/
+      - name: codeql init
+        uses: github/codeql-action/init@v2
+        with:
+          languages: go
+      - name: codeql autobuild
+        uses: github/codeql-action/autobuild@v2
+      - name: codeql analysis
+        id: analysis
+        uses: github/codeql-action/analyze@v2
+        with:
+          category: "/language:go"
+      - name: print results
+        run: |
+          cat "${{ steps.analysis.outputs.sarif-output }}/go.sarif"
+          echo "${{ steps.analysis.outputs.sarif-id }}"
+  codeql-python:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: python/
+      - name: codeql init
+        uses: github/codeql-action/init@v2
+        with:
+          languages: python
+      - name: codeql autobuild
+        uses: github/codeql-action/autobuild@v2
+      - name: codeql analysis
+        id: analysis
+        uses: github/codeql-action/analyze@v2
+        with:
+          category: "/language:python"
+      - name: print results
+        run: |
+          cat "${{ steps.analysis.outputs.sarif-output }}/python.sarif"
+          echo "${{ steps.analysis.outputs.sarif-id }}"
