@@ -189,3 +189,15 @@ jobs:
         run: |
           cat "${{ steps.analysis.outputs.sarif-output }}/python.sarif"
           echo "${{ steps.analysis.outputs.sarif-id }}"
+  pip-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: python/
+      - uses: pypa/gh-action-pip-audit@v1.0.0
+        with:
+          inputs: requirements.txt
+      # SARIF reports aren't supported by pip-audit yet:
+      # https://github.com/pypa/pip-audit/issues/206
