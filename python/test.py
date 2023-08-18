@@ -9,6 +9,8 @@ except Exception:
 
 formsets.formset_factory("vulnerable")
 
+hashlib.md5('invalid').hexdigest()
+
 user = "hackme"
 with connection.cursor() as cursor:
     cursor.execute(f"SELECT * FROM users WHERE username = {user}")
